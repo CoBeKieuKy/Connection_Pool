@@ -28,7 +28,6 @@ public class ServerThread implements Runnable {
     @Override
     public void run(){
         System.out.println("Welcome :" + userName);
-
         System.out.println("Local Port :" + socket.getLocalPort());
         System.out.println("Server = " + socket.getRemoteSocketAddress() + ":" + socket.getPort());
 
@@ -36,6 +35,8 @@ public class ServerThread implements Runnable {
             PrintWriter serverOut = new PrintWriter(socket.getOutputStream(), false);
             InputStream serverInStream = socket.getInputStream();
             Scanner serverIn = new Scanner(serverInStream);
+            // BufferedReader userBr = new BufferedReader(new InputStreamReader(userInStream));
+            // Scanner userIn = new Scanner(userInStream);
 
             while(!socket.isClosed()){
                 if(serverInStream.available() > 0){

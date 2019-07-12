@@ -2,6 +2,8 @@ package connection_pool;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Client {
@@ -13,7 +15,9 @@ public class Client {
     private String serverHost;
     private int serverPort;
     private Scanner userInputScanner;
-
+    
+    static final int max_client = 2;
+    
     public static void main(String[] args){
         String readName = null;
         Scanner scan = new Scanner(System.in);
@@ -26,8 +30,8 @@ public class Client {
                 System.out.println("Invalid. Please enter again:");
             }
         }
-        Client client = new Client(readName, host, portNumber);
-        client.startClient(scan);
+            Client client = new Client(readName, host, portNumber);
+        	client.startClient(scan);
     }
 
     private Client(String userName, String host, int portNumber){
@@ -44,9 +48,7 @@ public class Client {
             ServerThread serverThread = new ServerThread(socket, userName);
             Thread serverAccessThread = new Thread(serverThread);
             serverAccessThread.start();
-            System.out.println("time is running");
-//            socket.setSoTimeout(5000);
-//            socket.time
+
             while(serverAccessThread.isAlive()){
                 if(scan.hasNextLine()){
                     serverThread.addNextMessage(scan.nextLine());

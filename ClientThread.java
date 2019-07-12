@@ -14,7 +14,11 @@ public class ClientThread implements Runnable {
         this.server = server;
         this.socket = socket;
     }
-
+    
+    public Socket getSocket() {
+    	return this.socket;
+    }
+    
     private PrintWriter getWriter(){
         return clientOut;
     }
