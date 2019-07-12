@@ -9,16 +9,12 @@ public class ClientThread implements Runnable {
     private Socket socket;
     private PrintWriter clientOut;
     private ChatServer server;
-
+    public Thread thread;
     public ClientThread(ChatServer server, Socket socket){
         this.server = server;
         this.socket = socket;
     }
-    
-    public Socket getSocket() {
-    	return this.socket;
-    }
-    
+
     private PrintWriter getWriter(){
         return clientOut;
     }
@@ -48,5 +44,9 @@ public class ClientThread implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public Socket getSocket() {
+    	return this.socket;
     }
 }

@@ -2,8 +2,11 @@ package connection_pool;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
+
+
 
 public class ServerThread implements Runnable {
     private Socket socket;
@@ -28,8 +31,9 @@ public class ServerThread implements Runnable {
     @Override
     public void run(){
         System.out.println("Welcome :" + userName);
+
         System.out.println("Local Port :" + socket.getLocalPort());
-        System.out.println("Server = " + socket.getRemoteSocketAddress() + ":" + socket.getPort());
+        System.out.println("Server = " + socket.getRemoteSocketAddress());
 
         try{
             PrintWriter serverOut = new PrintWriter(socket.getOutputStream(), false);
@@ -48,6 +52,27 @@ public class ServerThread implements Runnable {
                     String nextSend = "";
                     synchronized(messagesToSend){
                         nextSend = messagesToSend.pop();
+                        if(nextSend.equals("exit")) {
+                        	System.out.println(socket.getLocalPort());
+                        	int i=0;
+                        	Iterator<ClientThread> iterator = ChatServer.clients.iterator();
+//                        	for(ClientThread temp : ChatServer.clients) {
+//                        		System.out.println(temp.getSocket().getPort());
+//                        		i++;
+//                        		if(socket.getLocalPort() == temp.getSocket().getPort()) {
+////                                	socket.close();
+//                        			System.out.println("Yes ok!");
+//                        			break;
+//                        		}
+//                        	}
+                        	while(iterator.hasNext()) {
+                        		ClientThread temp= iterator.next();
+                        		System.out.println(temp.getSocket().getPort());
+                        	}
+                        	System.out.println("gia tri cua i: "+i);
+                        }
+                        else
+                			System.out.println("No");
                         hasMessages = !messagesToSend.isEmpty();
                     }
                     serverOut.println(userName + " > " + nextSend);

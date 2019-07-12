@@ -2,27 +2,22 @@ package connection_pool;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Client {
 
     private static final String host = "localhost";
-    private static final int portNumber = 2019;
+    private static final int portNumber = 4444;
 
     private String userName;
     private String serverHost;
     private int serverPort;
     private Scanner userInputScanner;
-    
-    static final int max_client = 2;
-    
+
     public static void main(String[] args){
         String readName = null;
         Scanner scan = new Scanner(System.in);
         System.out.println("Please input username:");
-        
         while(readName == null || readName.trim().equals("")){
             // null, empty, whitespace(s) not allowed.
             readName = scan.nextLine();
@@ -30,8 +25,9 @@ public class Client {
                 System.out.println("Invalid. Please enter again:");
             }
         }
-            Client client = new Client(readName, host, portNumber);
-        	client.startClient(scan);
+
+        Client client = new Client(readName, host, portNumber);
+        client.startClient(scan);
     }
 
     private Client(String userName, String host, int portNumber){
@@ -48,7 +44,6 @@ public class Client {
             ServerThread serverThread = new ServerThread(socket, userName);
             Thread serverAccessThread = new Thread(serverThread);
             serverAccessThread.start();
-
             while(serverAccessThread.isAlive()){
                 if(scan.hasNextLine()){
                     serverThread.addNextMessage(scan.nextLine());
